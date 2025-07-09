@@ -20,13 +20,25 @@
         :style="{ width, background: colors.background, fontFamily: font }"
       >
         <g-gantt-timeaxis v-if="!hideTimeaxis">
-          <template #upper-timeunit="{ label, value, date }">
+          <template #upper-timeunit="{ label, value, date, dateTime }">
             <!-- expose upper-timeunit slot of g-gantt-timeaxis-->
-            <slot name="upper-timeunit" :label="label" :value="value" :date="date" />
+            <slot
+              name="upper-timeunit"
+              :label="label"
+              :value="value"
+              :date="date"
+              :date-time="dateTime"
+            />
           </template>
-          <template #timeunit="{ label, value, date }">
+          <template #timeunit="{ label, value, date, dateTime }">
             <!-- expose timeunit slot of g-gantt-timeaxis-->
-            <slot name="timeunit" :label="label" :value="value" :date="date" />
+            <slot
+              name="timeunit"
+              :label="label"
+              :value="value"
+              :date="date"
+              :date-time="dateTime"
+            />
           </template>
         </g-gantt-timeaxis>
         <g-gantt-grid v-if="grid" :highlighted-units="highlightedUnits" />
@@ -67,18 +79,18 @@ import GGanttTimeaxis from "./GGanttTimeaxis.vue"
 import GGanttBarTooltip from "./GGanttBarTooltip.vue"
 import GGanttCurrentTime from "./GGanttCurrentTime.vue"
 
-import type { GanttBarObject } from "../types"
-import type { ColorSchemeKey } from "../color-schemes.js"
+import type { GanttBarObject, GanttDateType } from "../types"
+import type { ColorSchemeKey } from "../color-schemes.ts"
 
 import { useElementSize } from "@vueuse/core"
-import { DEFAULT_DATE_FORMAT } from "../composables/useDayjsHelper"
-import { colorSchemes, type ColorScheme } from "../color-schemes.js"
+import { colorSchemes, type ColorScheme } from "../color-schemes.ts"
 import {
   CHART_ROWS_KEY,
   CONFIG_KEY,
   EMIT_BAR_EVENT_KEY,
   type ChartRow
 } from "../provider/symbols.js"
+import { DateTime } from "luxon"
 
 export interface GGanttChartProps {
   chartStart: string | Date
@@ -88,7 +100,6 @@ export interface GGanttChartProps {
   barEnd: string
   currentTime?: boolean
   currentTimeLabel?: string
-  dateFormat?: string | false
   width?: string
   hideTimeaxis?: boolean
   colorScheme?: ColorSchemeKey | ColorScheme
@@ -112,7 +123,6 @@ export type GGanttChartConfig = ToRefs<Required<GGanttChartProps>> & {
 
 const props = withDefaults(defineProps<GGanttChartProps>(), {
   currentTimeLabel: "",
-  dateFormat: DEFAULT_DATE_FORMAT,
   precision: "day",
   width: "100%",
   hideTimeaxis: false,
@@ -128,13 +138,13 @@ const props = withDefaults(defineProps<GGanttChartProps>(), {
 })
 
 const emit = defineEmits<{
-  (e: "click-bar", value: { bar: GanttBarObject; e: MouseEvent; datetime?: string | Date }): void
+  (e: "click-bar", value: { bar: GanttBarObject; e: MouseEvent; datetime?: GanttDateType }): void
   (
     e: "mousedown-bar",
-    value: { bar: GanttBarObject; e: MouseEvent; datetime?: string | Date }
+    value: { bar: GanttBarObject; e: MouseEvent; datetime?: GanttDateType }
   ): void
-  (e: "mouseup-bar", value: { bar: GanttBarObject; e: MouseEvent; datetime?: string | Date }): void
-  (e: "dblclick-bar", value: { bar: GanttBarObject; e: MouseEvent; datetime?: string | Date }): void
+  (e: "mouseup-bar", value: { bar: GanttBarObject; e: MouseEvent; datetime?: GanttDateType }): void
+  (e: "dblclick-bar", value: { bar: GanttBarObject; e: MouseEvent; datetime?: GanttDateType }): void
   (e: "mouseenter-bar", value: { bar: GanttBarObject; e: MouseEvent }): void
   (e: "mouseleave-bar", value: { bar: GanttBarObject; e: MouseEvent }): void
   (e: "dragstart-bar", value: { bar: GanttBarObject; e: MouseEvent }): void
@@ -210,7 +220,7 @@ const clearTooltip = () => {
 const emitBarEvent = (
   e: MouseEvent,
   bar: GanttBarObject,
-  datetime?: string | Date,
+  datetime?: GanttDateType,
   movedBars?: Map<GanttBarObject, { oldStart: string; oldEnd: string }>
 ) => {
   switch (e.type) {
@@ -246,7 +256,11 @@ const emitBarEvent = (
       emit("dragend-bar", { bar, e, movedBars })
       break
     case "contextmenu":
-      emit("contextmenu-bar", { bar, e, datetime })
+      emit("contextmenu-bar", {
+        bar,
+        e,
+        datetime: DateTime.isDateTime(datetime) ? datetime.toJSDate() : datetime
+      })
       break
   }
 }
@@ -263,7 +277,7 @@ provide(CONFIG_KEY, {
 provide(EMIT_BAR_EVENT_KEY, emitBarEvent)
 </script>
 
-<style>
+<style lang="scss">
 .g-gantt-chart {
   position: relative;
   display: flex;

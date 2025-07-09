@@ -1,6 +1,6 @@
-import type { GanttBarObject } from "../types"
-import provideConfig from "../provider/provideConfig.js"
-import provideGetChartRows from "../provider/provideGetChartRows.js"
+import type { GanttBarObject } from "../types.ts"
+import provideConfig from "../provider/provideConfig.ts"
+import provideGetChartRows from "../provider/provideGetChartRows.ts"
 
 export default function useBarDragLimit() {
   const { pushOnOverlap } = provideConfig()

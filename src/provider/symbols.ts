@@ -1,14 +1,14 @@
 import type { InjectionKey, Ref } from "vue"
 
 import type { GGanttChartConfig } from "../components/GGanttChart.vue"
-import type { GanttBarObject } from "../types"
+import type { GanttBarObject, GanttDateType } from "../types.ts"
 
 export type ChartRow = { label: string; bars: GanttBarObject[] }
 export type GetChartRows = () => ChartRow[]
 export type EmitBarEvent = (
   e: MouseEvent,
   bar: GanttBarObject,
-  datetime?: string | Date,
+  datetime?: GanttDateType,
   movedBars?: Map<GanttBarObject, { oldStart: string; oldEnd: string }>
 ) => void
 

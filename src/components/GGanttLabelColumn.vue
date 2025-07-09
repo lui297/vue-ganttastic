@@ -31,7 +31,7 @@ const { font, colors, labelColumnTitle, rowHeight } = provideConfig()
 const getChartRows = provideGetChartRows()
 </script>
 
-<style>
+<style lang="scss">
 .g-label-column {
   display: flex;
   align-items: center;

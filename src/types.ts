@@ -1,3 +1,4 @@
+import type { DateTime } from "luxon"
 import type { CSSProperties } from "vue"
 
 export type GanttBarObject = {
@@ -17,3 +18,5 @@ export type GanttBarObject = {
     class?: string
   }
 }
+
+export type GanttDateType = string | Date | DateTime

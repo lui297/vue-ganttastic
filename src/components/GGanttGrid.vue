@@ -24,7 +24,7 @@ const { colors } = provideConfig()
 const { timeaxisUnits } = useTimeaxisUnits()
 </script>
 
-<style>
+<style lang="scss">
 .g-grid-container {
   position: absolute;
   top: 0;

@@ -23,15 +23,15 @@
 import { computed, toRefs, ref, watch, nextTick } from "vue"
 
 import type { GanttBarObject } from "../types"
-import useDayjsHelper from "../composables/useDayjsHelper.js"
+import useDateTimeHelper from "../composables/useDateTimeHelper.js"
 import provideConfig from "../provider/provideConfig.js"
 
 const TOOLTIP_FORMATS = {
-  hour: "HH:mm",
-  day: "DD. MMM HH:mm",
-  date: "DD. MMMM YYYY",
-  month: "DD. MMMM YYYY",
-  week: "DD. MMMM YYYY (WW)"
+  hour: "hh:mm",
+  day: "dd. MMM HH:mm",
+  date: "dd. MMMM yyyy",
+  month: "dd. MMMM yyyy",
+  week: "d. MMMM yyyy (WW)"
 } as const
 
 const DEFAULT_DOT_COLOR = "cadetblue"
@@ -70,7 +70,7 @@ watch(
 
 const dotColor = computed(() => bar?.value?.ganttBarConfig.style?.background || DEFAULT_DOT_COLOR)
 
-const { toDayjs } = useDayjsHelper()
+const { toDateTime } = useDateTimeHelper()
 
 const barStartRaw = computed(() => bar.value?.[barStart.value])
 const barEndRaw = computed(() => bar.value?.[barEnd.value])
@@ -80,13 +80,13 @@ const tooltipContent = computed(() => {
     return ""
   }
   const format = TOOLTIP_FORMATS[precision.value]
-  const barStartFormatted = toDayjs(barStartRaw.value).format(format)
-  const barEndFormatted = toDayjs(barEndRaw.value).format(format)
+  const barStartFormatted = toDateTime(barStartRaw.value).toFormat(format)
+  const barEndFormatted = toDateTime(barEndRaw.value).toFormat(format)
   return `${barStartFormatted} \u2013 ${barEndFormatted}`
 })
 </script>
 
-<style>
+<style lang="scss">
 .g-gantt-tooltip {
   position: fixed;
   background: black;

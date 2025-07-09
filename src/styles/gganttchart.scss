@@ -1,0 +1,26 @@
+.g-gantt-chart {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  -webkit-touch-callout: none;
+  user-select: none;
+  font-variant-numeric: tabular-nums;
+  border-radius: 5px;
+}
+
+.with-column {
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.g-gantt-rows-container {
+  position: relative;
+}
+
+.labels-in-column {
+  display: flex;
+  flex-direction: row;
+}

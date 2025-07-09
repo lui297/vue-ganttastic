@@ -35,6 +35,7 @@ import provideConfig from "../provider/provideConfig.js"
 import type { GanttBarObject } from "../types"
 import GGanttBar from "./GGanttBar.vue"
 import { BAR_CONTAINER_KEY } from "../provider/symbols"
+import type { DateTime } from "luxon"
 
 const props = defineProps<{
   label: string
@@ -42,9 +43,8 @@ const props = defineProps<{
   highlightOnHover?: boolean
 }>()
 
-const emit = defineEmits<{
-  (e: "drop", value: { e: MouseEvent; datetime: string | Date }): void
-}>()
+const emit =
+  defineEmits<(e: "drop", value: { e: MouseEvent; datetime: string | Date | DateTime }) => void>()
 
 const { rowHeight, colors, labelColumnTitle } = provideConfig()
 const { highlightOnHover } = toRefs(props)
@@ -74,12 +74,11 @@ const onDrop = (e: MouseEvent) => {
 }
 
 const isBlank = (str: string) => {
-  return (!str || /^\s*$/.test(str))
+  return !str || /^\s*$/.test(str)
 }
-
 </script>
 
-<style>
+<style lang="scss">
 .g-gantt-row {
   width: 100%;
   transition: background 0.4s;
