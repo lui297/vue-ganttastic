@@ -23,7 +23,7 @@
         <div>
           {{ barConfig.label || "" }}
         </div>
-        <div v-if="barConfig.html" v-html="barConfig.html"/>
+        <div v-if="barConfig.html" v-html="barConfig.html" />
       </slot>
     </div>
     <template v-if="barConfig.hasHandles">
@@ -43,6 +43,7 @@ import type { GanttBarObject } from "../types"
 import provideEmitBarEvent from "../provider/provideEmitBarEvent.js"
 import provideConfig from "../provider/provideConfig.js"
 import { BAR_CONTAINER_KEY } from "../provider/symbols"
+import { DateTime } from "luxon"
 
 const props = defineProps<{
   bar: GanttBarObject
@@ -96,7 +97,18 @@ const onMouseEvent = (e: MouseEvent) => {
   if (!barContainer) {
     return
   }
-  const datetime = mapPositionToTime(e.clientX - barContainer.left)
+  const datetimeRaw = mapPositionToTime(e.clientX - barContainer.left)
+
+  let datetime: string | Date | DateTime
+  if (datetimeRaw instanceof Date) {
+    datetime = datetimeRaw
+  } else if (typeof datetimeRaw === "string") {
+    datetime = datetimeRaw
+  } else if (typeof datetimeRaw?.toJSDate === "function") {
+    datetime = datetimeRaw.toJSDate()
+  } else {
+    datetime = undefined
+  }
   emitBarEvent(e, bar.value, datetime)
 }
 
@@ -117,7 +129,7 @@ onMounted(() => {
 })
 </script>
 
-<style>
+<style lang="scss">
 .g-gantt-bar {
   display: flex;
   justify-content: center;

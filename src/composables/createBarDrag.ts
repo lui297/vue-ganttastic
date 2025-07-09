@@ -1,10 +1,11 @@
 import { ref } from "vue"
 import type { GGanttChartConfig } from "../components/GGanttChart.vue"
-import provideConfig from "../provider/provideConfig.js"
+import provideConfig from "../provider/provideConfig.ts"
 
-import type { GanttBarObject } from "../types"
-import useDayjsHelper from "./useDayjsHelper.js"
-import useTimePositionMapping from "./useTimePositionMapping.js"
+import type { GanttBarObject } from "../types.ts"
+import useDateTimeHelper from "./useDateTimeHelper.ts"
+import useTimePositionMapping from "./useTimePositionMapping.ts"
+import { DateTime } from "luxon"
 
 export default function createBarDrag(
   bar: GanttBarObject,
@@ -19,7 +20,7 @@ export default function createBarDrag(
   let dragCallBack: (e: MouseEvent) => void
 
   const { mapPositionToTime } = useTimePositionMapping(config)
-  const { toDayjs } = useDayjsHelper(config)
+  const { toDateTime } = useDateTimeHelper(config)
 
   const initDrag = (e: MouseEvent) => {
     const barElement = document.getElementById(bar.ganttBarConfig.id)
@@ -77,7 +78,11 @@ export default function createBarDrag(
 
     const xStart = e.clientX - barContainer.left
     const newBarStart = mapPositionToTime(xStart)
-    if (toDayjs(newBarStart).isSameOrAfter(toDayjs(bar, "end"))) {
+    if (
+      DateTime.isDateTime(newBarStart)
+        ? newBarStart
+        : toDateTime(newBarStart) >= toDateTime(bar, "end")
+    ) {
       return
     }
     bar[barStart.value] = newBarStart
@@ -92,7 +97,11 @@ export default function createBarDrag(
 
     const xEnd = e.clientX - barContainer.left
     const newBarEnd = mapPositionToTime(xEnd)
-    if (toDayjs(newBarEnd).isSameOrBefore(toDayjs(bar, "start"))) {
+    if (
+      DateTime.isDateTime(newBarEnd)
+        ? newBarEnd
+        : toDateTime(newBarEnd) <= toDateTime(bar, "start")
+    ) {
       return
     }
     bar[barEnd.value] = newBarEnd

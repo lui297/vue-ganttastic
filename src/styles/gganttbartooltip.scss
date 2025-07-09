@@ -1,0 +1,44 @@
+.g-gantt-tooltip {
+  position: fixed;
+  background: black;
+  color: white;
+  z-index: 4;
+  font-size: 0.85em;
+  padding: 5px;
+  border-radius: 3px;
+  transition: opacity 0.2s;
+  display: flex;
+  align-items: center;
+  font-variant-numeric: tabular-nums;
+}
+
+.g-gantt-tooltip:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  width: 0;
+  height: 0;
+  border: 10px solid transparent;
+  border-bottom-color: black;
+  border-top: 0;
+  margin-left: -5px;
+  margin-top: -5px;
+}
+
+.g-gantt-tooltip-color-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 100%;
+  margin-right: 4px;
+}
+
+.g-fade-enter-active,
+.g-fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.g-fade-enter-from,
+.g-fade-leave-to {
+  opacity: 0;
+}

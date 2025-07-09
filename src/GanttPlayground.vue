@@ -2,14 +2,13 @@
   <g-gantt-chart
     :chart-start="chartStart"
     :chart-end="chartEnd"
-    precision="week"
+    precision="date"
     :row-height="40"
     grid
     current-time
     width="100%"
     bar-start="beginDate"
     bar-end="endDate"
-    :date-format="format"
     @click-bar="onClickBar($event.bar, $event.e, $event.datetime)"
     @mousedown-bar="onMousedownBar($event.bar, $event.e, $event.datetime)"
     @dblclick-bar="onMouseupBar($event.bar, $event.e, $event.datetime)"
@@ -36,19 +35,19 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import type { GanttBarObject } from "./types"
-import dayjs from "dayjs"
+import type { GanttBarObject, GanttDateType } from "./types"
+import { DateTime } from "luxon"
+import GGanttChart from "./components/GGanttChart.vue"
+import GGanttRow from "./components/GGanttRow.vue"
 
-const format = ref("DD.MM.YYYY HH:mm")
-const chartStart = ref(dayjs().startOf("day").format(format.value))
-const chartEnd = ref(
-  dayjs(chartStart.value, format.value).add(3, "days").hour(12).format(format.value)
-)
+const format = ref("yyyy LLL dd hh:mm")
+const chartStart = ref(DateTime.now().set({ day: 1, month: 7, hour: 10 }).startOf("day").toJSDate())
+const chartEnd = ref(DateTime.now().set({ day: 7, month: 7, hour: 10 }).toJSDate())
 
 const bars1 = ref<GanttBarObject[]>([
   {
-    beginDate: dayjs().hour(13).startOf("hour").format(format.value),
-    endDate: dayjs().hour(19).startOf("hour").format(format.value),
+    beginDate: DateTime.now().set({ day: 2, hour: 13 }).startOf("hour").toISO(),
+    endDate: DateTime.now().set({ day: 3, hour: 19 }).startOf("hour").toISO(),
     ganttBarConfig: {
       id: "8621987329",
       label: "I'm in a bundle",
@@ -57,10 +56,10 @@ const bars1 = ref<GanttBarObject[]>([
   }
 ])
 
-const bars2 = ref([
+const bars2 = ref<GanttBarObject[]>([
   {
-    beginDate: dayjs().hour(13).startOf("hour").format(format.value),
-    endDate: dayjs().hour(19).startOf("hour").format(format.value),
+    beginDate: DateTime.now().set({ hour: 13 }).startOf("hour").toISO({ extendedZone: true }),
+    endDate: DateTime.now().set({ hour: 19 }).startOf("hour").toISO({ extendedZone: true }),
     ganttBarConfig: {
       id: "1592311887",
       label: "I'm in a bundle",
@@ -71,8 +70,8 @@ const bars2 = ref([
     }
   },
   {
-    beginDate: dayjs().add(2, "day").hour(0).startOf("hour").format(format.value),
-    endDate: dayjs().add(2, "day").hour(19).startOf("hour").format(format.value),
+    beginDate: DateTime.now().plus({ days: 2 }).set({ hour: 13 }).startOf("hour").toISO(),
+    endDate: DateTime.now().plus({ days: 2 }).set({ hour: 19 }).startOf("hour").toISO(),
     ganttBarConfig: {
       id: "7716981641",
       label: "Lorem ipsum dolor",
@@ -83,8 +82,8 @@ const bars2 = ref([
     }
   },
   {
-    beginDate: dayjs().add(1, "day").hour(4).startOf("hour").format(format.value),
-    endDate: dayjs().add(1, "day").hour(16).startOf("hour").format(format.value),
+    beginDate: DateTime.now().plus({ days: 1 }).set({ hour: 4 }).startOf("hour").toISO(),
+    endDate: DateTime.now().plus({ days: 1 }).set({ hour: 16 }).startOf("hour").toISO(),
     ganttBarConfig: {
       id: "9716981641",
       label: "Oh hey",
@@ -100,8 +99,8 @@ const bars2 = ref([
 
 const bars3 = [
   {
-    beginDate: "15.01.2024 08:30",
-    endDate: "20.02.2024 16:45",
+    beginDate: DateTime.now().set({ day: 20, month: 7, hour: 10 }).startOf("hour").toISO(),
+    endDate: DateTime.now().set({ day: 25, month: 7, hour: 15 }).startOf("hour").toISO(),
     ganttBarConfig: {
       id: "9876543210",
       label: "Updated Bundle",
@@ -112,8 +111,8 @@ const bars3 = [
     }
   },
   {
-    beginDate: "20.02.2024 12:00",
-    endDate: "10.03.2024 18:30",
+    beginDate: DateTime.now().set({ day: 8, month: 7, hour: 10 }).startOf("hour").toISO(),
+    endDate: DateTime.now().set({ day: 20, month: 7, hour: 10 }).startOf("hour").toISO(),
     ganttBarConfig: {
       id: "1234567890",
       label: "New Task",
@@ -124,8 +123,8 @@ const bars3 = [
     }
   },
   {
-    beginDate: "25.04.2024 09:15",
-    endDate: "30.04.2024 21:00",
+    beginDate: DateTime.now().set({ day: 10, month: 7, hour: 10 }).startOf("hour").toISO(),
+    endDate: DateTime.now().set({ day: 25, month: 7, hour: 10 }).startOf("hour").toISO(),
     ganttBarConfig: {
       id: "2468135790",
       label: "Greetings",
@@ -141,8 +140,12 @@ const bars3 = [
 
 const bars4 = [
   {
-    beginDate: "10.01.2024 08:00",
-    endDate: "15.03.2024 16:30",
+    beginDate: DateTime.now().plus({ months: 1 }).set({ hour: 10 }).startOf("hour").toISO(),
+    endDate: DateTime.now()
+      .plus({ months: 1 })
+      .set({ hour: 19, minute: 15 })
+      .startOf("hour")
+      .toISO(),
     ganttBarConfig: {
       id: "9876543210",
       label: "Novo Pacote",
@@ -153,8 +156,12 @@ const bars4 = [
     }
   },
   {
-    beginDate: "05.03.2024 10:00",
-    endDate: "15.04.2024 22:15",
+    beginDate: DateTime.now().plus({ months: -3 }).set({ hour: 10 }).startOf("hour").toISO(),
+    endDate: DateTime.now()
+      .plus({ months: -3 })
+      .set({ hour: 19, minute: 15 })
+      .startOf("hour")
+      .toISO(),
     ganttBarConfig: {
       id: "2468135790",
       label: "hello folks",
@@ -173,8 +180,8 @@ const addBar = () => {
     return
   }
   const bar = {
-    beginDate: dayjs().add(1, "day").hour(4).startOf("hour").format(format.value),
-    endDate: dayjs().add(2, "day").hour(4).startOf("hour").format(format.value),
+    beginDate: DateTime.now().set({ day: 1, month: 7, hour: 10 }).startOf("hour").toISO(),
+    endDate: DateTime.now().set({ day: 3, month: 7, hour: 10 }).startOf("hour").toISO(),
     ganttBarConfig: {
       id: "test1",
       hasHandles: true,
@@ -195,15 +202,15 @@ const deleteBar = () => {
   }
 }
 
-const onClickBar = (bar: GanttBarObject, e: MouseEvent, datetime?: string) => {
+const onClickBar = (bar: GanttBarObject, e: MouseEvent, datetime?: GanttDateType) => {
   console.log("click-bar", bar, e, datetime)
 }
 
-const onMousedownBar = (bar: GanttBarObject, e: MouseEvent, datetime?: string) => {
+const onMousedownBar = (bar: GanttBarObject, e: MouseEvent, datetime?: GanttDateType) => {
   console.log("mousedown-bar", bar, e, datetime)
 }
 
-const onMouseupBar = (bar: GanttBarObject, e: MouseEvent, datetime?: string) => {
+const onMouseupBar = (bar: GanttBarObject, e: MouseEvent, datetime?: GanttDateType) => {
   console.log("mouseup-bar", bar, e, datetime)
 }
 
@@ -231,7 +238,7 @@ const onDragendBar = (
   console.log("dragend-bar", bar, e, movedBars)
 }
 
-const onContextmenuBar = (bar: GanttBarObject, e: MouseEvent, datetime?: string) => {
+const onContextmenuBar = (bar: GanttBarObject, e: MouseEvent, datetime?: GanttDateType) => {
   console.log("contextmenu-bar", bar, e, datetime)
 }
 </script>

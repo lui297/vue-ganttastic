@@ -22,19 +22,20 @@
 <script setup lang="ts">
 import { ref, computed } from "vue"
 import useTimePositionMapping from "../composables/useTimePositionMapping.js"
-import dayjs from "dayjs"
 import provideConfig from "../provider/provideConfig.js"
+import { DateTime } from "luxon"
+// import { DEFAULT_DATE_FORMAT } from "@/composables/useDateTimeHelper.js"
 
 const { mapTimeToPosition } = useTimePositionMapping()
-const currentMoment = ref(dayjs())
-const { colors, dateFormat, currentTimeLabel } = provideConfig()
+const currentMoment = ref(DateTime.now())
+const { colors, currentTimeLabel } = provideConfig()
 const xDist = computed(() => {
-  const format = dateFormat.value || "YYYY-MM-DD HH:mm"
-  return mapTimeToPosition(dayjs(currentMoment.value, format).format(format))
+  // const format = dateFormat.value
+  return mapTimeToPosition(currentMoment.value.toISO({ extendedZone: true })) // Use extendedZone for better compatibility
 })
 </script>
 
-<style>
+<style lang="scss">
 .g-grid-current-time {
   position: absolute;
   height: 100%;
