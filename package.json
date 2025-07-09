@@ -1,6 +1,6 @@
 {
   "name": "@lui297/vue-ganttastic",
-  "version": "2.4.0",
+  "version": "2.4.1",
   "description": "A simple and customizable Gantt chart component for Vue.js",
   "author": "Luigi Arends (@lui297)",
   "scripts": {
