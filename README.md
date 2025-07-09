@@ -29,7 +29,7 @@ For further guides and references from the original repo, check out the [officia
 Install using
 
 ```
-npm install @lui297/vue-ganttastic
+npm install git+https://github.com/lui297/vue-ganttastic
 ```
 
 Then, initalize the plugin in the starting point of your app (most likely src/main.js):
@@ -38,7 +38,7 @@ Then, initalize the plugin in the starting point of your app (most likely src/ma
 import { createApp } from "vue"
 import App from "./App.vue"
 ...
-import ganttastic from ' @lui297/vue-ganttastic'
+import ganttastic from '@lui297/vue-ganttastic'
 ...
 createApp(App)
   .use(ganttastic)
