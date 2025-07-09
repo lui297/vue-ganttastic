@@ -39,6 +39,7 @@ import { createApp } from "vue"
 import App from "./App.vue"
 ...
 import ganttastic from '@lui297/vue-ganttastic'
+import '@lui297/vue-ganttastic/lib/styles';
 ...
 createApp(App)
   .use(ganttastic)
