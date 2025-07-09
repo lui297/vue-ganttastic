@@ -8,20 +8,7 @@
 />
 
 <b>Vue Ganttastic</b> is a simple, interactive and highly customizable Gantt chart component for Vue 3.
-
-![image](https://user-images.githubusercontent.com/28678851/148191571-76bd8d61-4583-4538-8c59-cc2915494890.png)
-
-</div>
-
-## Features
-
-- **[Vue 3](https://v3.vuejs.org/) support**
-- **[TypeScript](https://www.typescriptlang.org/) support** _(ships with out of the box type declarations)_
-- **Interactivity** _(dynamic, movable and pushable bars)_
-- **Reactivity / Responsiveness** (_when changes occur, bars are repositioned accordingly_)
-- **Customization options** (_chart/bar styling, slots, event handlers etc._)
-
-Using Vue 2? Check out [Vue-Ganttastic v1](https://github.com/zunnzunn/vue-ganttastic/tree/vue-ganttastic-v1).
+The original has been edited to support Luxon and custom format has been removed. 
 
 ## Guide and Docs
 
@@ -32,7 +19,7 @@ For further guides and references, check out the [official docs](https://zunnzun
 Install using
 
 ```
-npm install @infectoone/vue-ganttastic
+npm install @lui297/vue-ganttastic
 ```
 
 Then, initalize the plugin in the starting point of your app (most likely src/main.js):
@@ -41,7 +28,7 @@ Then, initalize the plugin in the starting point of your app (most likely src/ma
 import { createApp } from "vue"
 import App from "./App.vue"
 ...
-import ganttastic from '@infectoone/vue-ganttastic'
+import ganttastic from ' @lui297/vue-ganttastic'
 ...
 createApp(App)
   .use(ganttastic)
@@ -53,8 +40,8 @@ This will globally register the components g-gantt-chart and g-gantt-row and you
 ```html
 <template>
   <g-gantt-chart
-    chart-start="2021-07-12 12:00"
-    chart-end="2021-07-14 12:00"
+    :chart-start="new Date() || DateTime.now().minus({ days: 7 }).toISO()"
+    :chart-end="new Date() || DateTime.now().plus({ days: 7 }).toISO()"
     precision="hour"
     bar-start="myBeginDate"
     bar-end="myEndDate"
@@ -69,8 +56,8 @@ This will globally register the components g-gantt-chart and g-gantt-row and you
 
   const row1BarList = ref([
     {
-      myBeginDate: "2021-07-13 13:00",
-      myEndDate: "2021-07-13 19:00",
+      :myBeginDate: "DateTime.now().set({ day: 3 }).toISO()",
+      :myEndDate: "DateTime.now().set({ day: 5 }).toISO()",
       ganttBarConfig: {
         // each bar must have a nested ganttBarConfig object ...
         id: "unique-id-1", // ... and a unique "id" property
@@ -80,8 +67,8 @@ This will globally register the components g-gantt-chart and g-gantt-row and you
   ])
   const row2BarList = ref([
     {
-      myBeginDate: "2021-07-13 00:00",
-      myEndDate: "2021-07-14 02:00",
+      :myBeginDate: "DateTime.now().set({ month: 3 }).toISO()",
+      :myEndDate: "DateTime.now().set({ month: 5 }).toISO()",
       ganttBarConfig: {
         id: "another-unique-id-2",
         hasHandles: true,
@@ -126,25 +113,8 @@ npm install <name_of_the_package>.tgz
 
 **License** [MIT](https://choosealicense.com/licenses/mit/)  
 **Author**: Marko Žunić, BSc  
-[GitHub Repository](https://github.com/zunnzunn/vue-ganttastic)
+**Editor**: L. Arends (@lui297) 
 
-## Support the project!
+[GitHub Origin](https://github.com/lui297/vue-ganttastic/)
+[GitHub Upstream](https://github.com/zunnzunn/vue-ganttastic)
 
-In case you found the library useful, a little tip would be much appreciated!
-
-<form action="https://www.paypal.com/donate" method="post" target="_top">
-<input type="hidden" name="hosted_button_id" value="M63C8DAMV5YDJ" />
-<input type="image" src="https://pics.paypal.com/00/s/MTdhMWZmNTUtOWQ1Yi00YmRjLWJjMjgtY2Y0NTNhODM0OTJl/file.PNG" border="0" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" style="max-width:200px"/>
-<img alt="" border="0" src="https://www.paypal.com/en_AT/i/scr/pixel.gif" width="1" height="1" />
-</form>
-
-BTC address:  
-![image](https://user-images.githubusercontent.com/28678851/233090745-a0a6d8a4-6df6-4b82-ac0c-90e69551786e.png)
-
-## Screenshots
-
-![image](https://user-images.githubusercontent.com/28678851/148191571-76bd8d61-4583-4538-8c59-cc2915494890.png)
-
-![image](https://user-images.githubusercontent.com/28678851/148191529-b50c0d17-bcc1-4a78-9d2c-ff2a36b03f52.png)
-
-![image](https://user-images.githubusercontent.com/28678851/148191757-a2520dce-aeed-43df-87b2-3a64e225f9e7.png)
