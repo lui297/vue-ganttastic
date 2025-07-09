@@ -7,14 +7,24 @@
     alt="Vue Ganttastic logo"
 />
 
+
+
 <b>Vue Ganttastic</b> is a simple, interactive and highly customizable Gantt chart component for Vue 3.
 The original has been edited to support Luxon and custom format has been removed. 
 
-## Guide and Docs
+## 📚 Documentation
 
-For further guides and references, check out the [official docs](https://zunnzunn.github.io/vue-ganttastic/getting-started.html).
+For further guides and references from the original repo, check out the [official docs](https://zunnzunn.github.io/vue-ganttastic/getting-started.html).
 
-## Quickstart
+## ✨ Key Features
+
+### 🎯 Core Capabilities
+
+- **📅 Advanced Time Management**: Multi-precision support (hours, days, weeks, months) with auto-scaling
+- **🖱️ Drag & Drop**: Intuitive bar and row manipulation
+- **🏷️ Simplicity**: Simple white label integration into custom projects
+
+## 🚀 Quickstart
 
 Install using
 
