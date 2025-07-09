@@ -4,7 +4,6 @@
   "compilerOptions": {
     "baseUrl": ".",
     "target": "esnext",
-    "noEmit": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "esnext",
@@ -18,7 +17,10 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "skipLibCheck": true,
-    "outDir": "lib_types",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "lib_types",
+    "outDir": "lib",
     "paths": {
       "@/*": ["src/*"]
     }

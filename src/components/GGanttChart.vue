@@ -80,10 +80,9 @@ import GGanttBarTooltip from "./GGanttBarTooltip.vue"
 import GGanttCurrentTime from "./GGanttCurrentTime.vue"
 
 import type { GanttBarObject, GanttDateType } from "../types"
-import type { ColorSchemeKey } from "../color-schemes.ts"
 
 import { useElementSize } from "@vueuse/core"
-import { colorSchemes, type ColorScheme } from "../color-schemes.ts"
+import { colorSchemes, type ColorScheme, type ColorSchemeKey } from "../color-schemes.ts"
 import {
   CHART_ROWS_KEY,
   CONFIG_KEY,
