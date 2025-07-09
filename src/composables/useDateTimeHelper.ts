@@ -5,9 +5,6 @@ import type { GanttBarObject } from "../types.ts"
 import provideConfig from "../provider/provideConfig.ts"
 import { DateTime } from "luxon"
 
-// toISO is used to convert DateTime to ISO string format
-// export const DEFAULT_DATE_FORMAT = "yyyy-MM-DDThh:mm:ss.SSSZZ"
-
 export default function useDateTimeHelper(config: GGanttChartConfig = provideConfig()) {
   const { chartStart, chartEnd, barStart, barEnd } = config
 

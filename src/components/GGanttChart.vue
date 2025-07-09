@@ -83,7 +83,6 @@ import type { GanttBarObject, GanttDateType } from "../types"
 import type { ColorSchemeKey } from "../color-schemes.ts"
 
 import { useElementSize } from "@vueuse/core"
-// import { DEFAULT_DATE_FORMAT } from "../composables/useDateTimeHelper"
 import { colorSchemes, type ColorScheme } from "../color-schemes.ts"
 import {
   CHART_ROWS_KEY,
@@ -101,7 +100,6 @@ export interface GGanttChartProps {
   barEnd: string
   currentTime?: boolean
   currentTimeLabel?: string
-  // dateFormat?: string
   width?: string
   hideTimeaxis?: boolean
   colorScheme?: ColorSchemeKey | ColorScheme
@@ -125,7 +123,6 @@ export type GGanttChartConfig = ToRefs<Required<GGanttChartProps>> & {
 
 const props = withDefaults(defineProps<GGanttChartProps>(), {
   currentTimeLabel: "",
-  // dateFormat: DEFAULT_DATE_FORMAT,
   precision: "day",
   width: "100%",
   hideTimeaxis: false,

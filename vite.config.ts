@@ -1,6 +1,5 @@
-import { defineConfig, normalizePath, preprocessCSS } from "vite"
+import { defineConfig, normalizePath } from "vite"
 import vue from "@vitejs/plugin-vue"
-import styleInject from "@senojs/rollup-plugin-style-inject"
 import * as path from "path"
 import { fileURLToPath } from "url"
 import { viteStaticCopy } from "vite-plugin-static-copy"
@@ -9,9 +8,6 @@ import { viteStaticCopy } from "vite-plugin-static-copy"
 export default defineConfig({
   plugins: [
     vue(),
-    styleInject({
-      insertAt: "top",
-    }),
     viteStaticCopy({
       targets: [
         {

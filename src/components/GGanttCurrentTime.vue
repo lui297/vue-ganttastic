@@ -24,13 +24,11 @@ import { ref, computed } from "vue"
 import useTimePositionMapping from "../composables/useTimePositionMapping.js"
 import provideConfig from "../provider/provideConfig.js"
 import { DateTime } from "luxon"
-// import { DEFAULT_DATE_FORMAT } from "@/composables/useDateTimeHelper.js"
 
 const { mapTimeToPosition } = useTimePositionMapping()
 const currentMoment = ref(DateTime.now())
 const { colors, currentTimeLabel } = provideConfig()
 const xDist = computed(() => {
-  // const format = dateFormat.value
   return mapTimeToPosition(currentMoment.value.toISO({ extendedZone: true })) // Use extendedZone for better compatibility
 })
 </script>
